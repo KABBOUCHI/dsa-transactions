@@ -1,6 +1,17 @@
-type ExampleEntity @entity {
+type DSA @entity {
   id: ID!
-  count: BigInt!
-  sender: Bytes! # address
-  owner: Bytes! # address
+  version: BigInt!
+  accountID: BigInt!
+  # Smart account address
+  address: Bytes!
+  # Dsa created by user address
+  creator: Bytes!
+  # Targets
+  # targets: [Bytes!]!
+  # Targets Names
+  targetNames: [String!]!
+  # Cast events
+  eventsNames: [String!]!
+  # Cast event params
+  eventsParams: [Bytes!]!
 }
