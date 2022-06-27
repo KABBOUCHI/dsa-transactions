@@ -20,7 +20,15 @@ type Events @entity {
   eventsNames: [String!]!
   # Cast event params
   eventsParams: [Bytes!]!
-  # DSAs: [DSA!]! @derivedFrom(field: "events")
+  DSAs: [DSA!]! @derivedFrom(field: "events")
+  # transaction index
+  txnIndex: BigInt!
+  # event index
+  eventIndex: BigInt!
+  # transaction log index
+  txnLogIndex: BigInt!
+  # nonce of txn
+  nonce: BigInt!
 }
 
 type DSA @entity {
