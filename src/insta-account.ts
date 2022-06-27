@@ -31,6 +31,9 @@ export function handleLogCast(event: LogCast): void {
   cast_events.blockNumber = event.block.number;
   cast_events.timestamp = event.block.timestamp;
   cast_events.gasUsed = event.block.gasUsed;
+  cast_events.sender = event.params.sender;
+  cast_events.origin = event.params.origin;
+  cast_events.value = event.params.value;
 
   let events = dsa.events;
   events.push(cast_events.id);

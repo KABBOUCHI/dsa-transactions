@@ -8,6 +8,12 @@ type Events @entity {
   gasUsed: BigInt!
   # Targets
   # targets: [Bytes!]!
+  #sender - msg.sender
+  sender: Bytes!
+  #origin
+  origin: Bytes!
+  #value sent
+  value: BigInt!
   # Targets Names
   targetNames: [String!]!
   # Cast events
