@@ -7,7 +7,7 @@ import {
   LogNewMaster,
   LogUpdateMaster,
 } from "../generated/undefined/InstaIndex";
-import { DSA } from "../generated/schema";
+import { DSA, Events } from "../generated/schema";
 import { InstaAccount } from "../generated/undefined/InstaAccount";
 import { InstaList } from "../generated/undefined/InstaList";
 import { InstaAccount as InstaAccountABI } from "../generated/templates";
@@ -30,6 +30,7 @@ export function handleLogAccountCreated(event: LogAccountCreated): void {
   dsa.address = event.params.account;
   dsa.version = instaAccount.version();
   dsa.accountID = accountId;
+
   dsa.save();
 }
 
@@ -37,10 +38,19 @@ export function createOrLoadDsa(id: string): DSA {
   let dsa = DSA.load(id);
   if (dsa == null) {
     dsa = new DSA(id);
-    dsa.eventsNames = [];
-    dsa.eventsParams = [];
-    dsa.targetNames = [];
-    // dsa.targets = [];
+    dsa.events = [];
   }
   return dsa;
+}
+
+export function createOrLoadEvent(id: string): Events {
+  let event = Events.load(id);
+  if (event == null) {
+    event = new Events(id);
+    event.eventsNames = [];
+    event.eventsParams = [];
+    event.targetNames = [];
+    // event.targets = [];
+  }
+  return event;
 }

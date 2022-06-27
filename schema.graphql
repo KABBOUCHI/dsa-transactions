@@ -1,11 +1,11 @@
-type DSA @entity {
+type Events @entity {
   id: ID!
-  version: BigInt!
-  accountID: BigInt!
-  # Smart account address
-  address: Bytes!
-  # Dsa created by user address
-  creator: Bytes!
+  # block number
+  blockNumber: BigInt!
+  # timestamp
+  timestamp: BigInt!
+  # gas 
+  gasUsed: BigInt!
   # Targets
   # targets: [Bytes!]!
   # Targets Names
@@ -14,4 +14,17 @@ type DSA @entity {
   eventsNames: [String!]!
   # Cast event params
   eventsParams: [Bytes!]!
+  # DSAs: [DSA!]! @derivedFrom(field: "events")
+}
+
+type DSA @entity {
+  id: ID!
+  version: BigInt!
+  accountID: BigInt!
+  # Smart account address
+  address: Bytes!
+  # Dsa created by user address
+  creator: Bytes!
+  # Cast event data
+  events: [Events!]!
 }

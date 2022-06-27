@@ -9,11 +9,13 @@ import {
   LogCast,
   InstaAccount,
 } from "../generated/templates/InstaAccount/InstaAccount";
-import { DSA } from "../generated/schema";
+import { DSA, Events } from "../generated/schema";
+import { createOrLoadEvent, createOrLoadDsa } from "./insta-index";
 
 export function handleLogCast(event: LogCast): void {
   let context = dataSource.context();
   let id = context.getString("dsa");
+  let eventId = event.transaction.hash.toHexString();
 
   log.info("transaction hash: {} and from: {} ", [
     event.transaction.hash.toHexString(),
@@ -21,22 +23,20 @@ export function handleLogCast(event: LogCast): void {
   ]);
   log.info("ID: {}", [id]);
 
-  let dsa = DSA.load(id);
-  if (dsa == null) {
-    dsa = new DSA(id);
-    dsa.eventsNames = [];
-    dsa.eventsParams = [];
-    dsa.targetNames = [];
-    // dsa.targets = [];
-    dsa.address = event.transaction.from;
-    dsa.version = BigInt.fromI32(0);
-    dsa.accountID = BigInt.fromI32(0);
-  }
+  let dsa = createOrLoadDsa(id);
+  let cast_events = createOrLoadEvent(eventId);
+  cast_events.eventsNames = event.params.eventNames;
+  cast_events.eventsParams = event.params.eventParams;
+  cast_events.targetNames = event.params.targetsNames;
+  cast_events.blockNumber = event.block.number;
+  cast_events.timestamp = event.block.timestamp;
+  cast_events.gasUsed = event.block.gasUsed;
 
-  dsa.eventsNames = event.params.eventNames;
-  dsa.eventsParams = event.params.eventParams;
-  dsa.targetNames = event.params.targetsNames;
+  let events = dsa.events;
+  events.push(cast_events.id);
+  dsa.events = events;
   // dsa.targets = event.params.targets;
 
   dsa.save();
+  cast_events.save();
 }
