@@ -34,10 +34,15 @@ export function handleLogCast(event: LogCast): void {
   cast_events.sender = event.params.sender;
   cast_events.origin = event.params.origin;
   cast_events.value = event.params.value;
+
+  log.info("event Index: {}", [event.logIndex.toString()]);
   cast_events.eventIndex = event.logIndex;
+  log.info("txn Index: {}", [event.transaction.index.toString()]);
   cast_events.txnIndex=event.transaction.index;
+  log.info("txn log index: {} ", [event.transactionLogIndex.toString()]);
   cast_events.txnLogIndex = event.transactionLogIndex;
-  cast_events.nonce = event.transaction.nonce;
+  // log.info("nonce: {} ", [event.transaction.nonce.toString()]);
+  // cast_events.nonce = event.transaction.nonce;
 
   let events = dsa.events;
   events.push(cast_events.id);

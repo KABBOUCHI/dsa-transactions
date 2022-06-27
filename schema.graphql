@@ -1,34 +1,49 @@
 type Events @entity {
   id: ID!
+
   # block number
   blockNumber: BigInt!
+
   # timestamp
   timestamp: BigInt!
+
   # gas 
   gasUsed: BigInt!
+
   # Targets
   # targets: [Bytes!]!
+
   #sender - msg.sender
   sender: Bytes!
+
   #origin
   origin: Bytes!
+
   #value sent
   value: BigInt!
+
   # Targets Names
   targetNames: [String!]!
+
   # Cast events
   eventsNames: [String!]!
+
   # Cast event params
   eventsParams: [Bytes!]!
-  DSAs: [DSA!]! @derivedFrom(field: "events")
+
+  #DSAs: [DSA!]! @derivedFrom(field: "events")  
+
   # transaction index
   txnIndex: BigInt!
+
   # event index
   eventIndex: BigInt!
+
   # transaction log index
   txnLogIndex: BigInt!
+
   # nonce of txn
-  nonce: BigInt!
+  # nonce: BigInt
 }
 
 type DSA @entity {
